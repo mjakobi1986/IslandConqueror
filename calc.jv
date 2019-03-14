@@ -36,20 +36,35 @@ public class Calculations {
 		private int amountIslandsDef = 1;
 		
 		public calculations(){
-			
 		};
-
-		//only, if Islands are on same Ocean
-		private double islandDistance(int isl_Id1, int isl_Id2) {
-			double distance;
-			if(isl_Id1 = isl_Id2) {
-				distance = 0;
+		
+		//distance between Islands
+		private double islandDistance(Island isle1, Island isle2) {
+			int oz1 = isle1.getOcean();
+			int oz2 = isle2.getOcean();
+			
+			int id1 = isle1.getId();
+			int id2 = isle2.getId();
+			
+			int dx = 0;
+			int dy = 0;
+			
+			//horizontal part
+			if(oz1%10 != oz2%10) {
+				dx = 50 - 'betrag'(id1%50 - id2%50);
 			} else {
-				int dx = (isl_Id1%50) - (isl_Id2%50);
-				int dy = (int)isl_Id1/50 - (int)isl_Id2/50;
-				
-				double distance = (dx^2 + dy^2)^0.5;
+				dx = id1%50 - id2%50;
 			}
+			
+			//vertical part
+			if(oz1/10 != oz2/10) {
+				dy = 50 - 'betrag'(id1/50 - id2/50);
+			} else {
+				dy = id1/50 - id2/50;
+			}
+			
+			//total distance via Pythagoras
+			double distance = (dx^2 + dy^2)^0.5;
 			
 			return distance;
 		}
