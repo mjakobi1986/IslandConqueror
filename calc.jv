@@ -19,7 +19,7 @@ public class Calculations {
 		// Island Coords always formatted as 'XX:YY:ZZ'
 			// XX = Ocean Number (00 - 99), 
 			// YY = Island Group (00 - 99),
-			// ZZ = Island Number within Island Group (01 - 25)
+			// ZZ = Island Number within Island Group (00 - 24)
 		private String islandCoords1 = "00:00:01";
 		private String islandCoords2 = "00:00:02";
 		
@@ -78,8 +78,19 @@ public class Calculations {
 			int ig_x = (isl_Id%100)
 		}
 		
-		public int island_CoordsToID(String isl_Coords) {
+		public int[] island_CoordsToID(String isl_Coords) {
+			char[] coords = isl_Coords.toCharArray();
+			int oz = Integer.parseInt((String)("coords[0]" + "coords[1]"));
+			int ig = Integer.parseInt((String)("coords[3]" + "coords[4]"));
+			int in = Integer.parseInt((String)("coords[6]" + "coords[7]"));
 			
+			int isl_Id_x = ig%10 + in%5;
+			int isl_Id_y = ig/10 + in/5;
+			
+			int isl_ID = isl_Id_x*25 + isl_Id_y;
+			int[] isleIDwOZ = new Array(oz, isl_ID);
+			
+			return isleIDwOZ;
 		}
 		
 		public int shippingDuration(int isl_Id1, int isl_Id2) {
