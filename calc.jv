@@ -75,7 +75,15 @@ public class Calculations {
 			int oz_x = isl_OZ%10;
 			int oz_y = isl_OZ/10;
 			
-			int ig_x = (isl_Id%100)
+			int ig_x = (isl_Id%50)/5;
+			int ig_y = (isl_Id/50)/5;
+			
+			int isl_x = isl_Id%5;
+			int isl_y = (isl_Id/50)%5;
+			
+			isl_Coords = "oz_y" + "oz_x" + ":" + "ig_y" + "ig_x" + ":" + "isl_y" + "isl_x";
+			
+			return isl_Coords;
 		}
 		
 		public int[] island_CoordsToID(String isl_Coords) {
