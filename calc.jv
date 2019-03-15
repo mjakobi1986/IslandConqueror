@@ -23,16 +23,16 @@ public class Calculations {
 		private String islandCoords1 = "00:00:01";
 		private String islandCoords2 = "00:00:02";
 		
-		private int amountSKoff;
-		private int amountBSoff;
-		private int amountSPoff;
+		private int amountSKatt;
+		private int amountBSatt;
+		private int amountSPatt;
 		private int amountSKdef;
 		private int amountBSdef;
 		private int amountSPdef;
-		private double offBonus = 1.0;
+		private double attBonus = 1.0;
 		private double defBonus = 1.0;
 		
-		private int amountIslandsOff = 1;
+		private int amountIslandsAtt = 1;
 		private int amountIslandsDef = 1;
 		
 		public calculations(){
