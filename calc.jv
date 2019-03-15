@@ -110,6 +110,28 @@ public class Calculations {
 			return duration;
 		}
 		
+		private double attackValue (Island isle1) {
+			amountSKatt = isle1.getAmountSK();
+			amountBSatt = isle1.getAmountBS();
+			amountSPatt = isle1.getAmountSP();
+			
+			attBonus = isle1.getBonusAtt();
+			
+			attTotal = (amountSKatt * ATTACK_LOW + amountSPatt * ATTACK_MEDIUM + amountBSatt * ATTACK_HIGH) * (1.0 + attBonus/100);
+			
+			return attTotal;
+		} 
 		
+		private double defenseValue (Island isle2) {
+			amountSKdef = isle2.getAmountSK();
+			amountBSdef = isle2.getAmountBS();
+			amountSPdef = isle2.getAmountSP();
+			
+			defBonus = isle2.getBonusDef();
+			
+			defTotal = (amountSKdef * DEFENSE_HIGH + amountSPdef * DEFENSE_MEDIUM + amountBSdef * DEFENSE_LOW) * (1.0 + defBonus/100);
+			
+			return defTotal;
+		}
 		
 	}
