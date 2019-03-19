@@ -38,20 +38,7 @@
 			
 		}
 		
-		public function island_CoordsToIDwoOz ($islandCoords) {
-			$parts = preg_split(':', $islandCoords);
-			$ig = $parts[1];
-			$in = $parts[2];
-			
-			$isl_Id_x = $ig%10 + $in%5;
-			$isl_Id_y = $ig/10 + $in/5;
-			
-			$isl_ID = $isl_Id_x*25 + $isl_Id_y;
-			
-			return $isl_ID;
-		}
-		
-		public function island_CoordsToIDwithOz ($islandCoords) {
+		public function island_CoordsToID ($islandCoords) {
 			$parts = preg_split(':', $islandCoords);
 			$oz = $parts[0];
 			$ig = $parts[1];
