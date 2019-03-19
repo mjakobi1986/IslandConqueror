@@ -107,7 +107,29 @@
 			return $distance;
 		}
 		
+		private function attackValue (object $Island) {
+			$amountSKatt = $Island->getAmountSK();
+			$amountBSatt = $Island->getAmountBS();
+			$amountSPatt = $Island->getAmountSP();
+			
+			$attBonus = $Island->getBonusAtt();
+			
+			$attTotal = ($amountSKatt * $ATTACK_LOW + $amountSPatt * $ATTACK_MEDIUM + $amountBSatt * $ATTACK_HIGH) * (1.0 + $attBonus/100);
+			
+			return $attTotal;
+		}
 		
+		private function defenseValue (object $Island) {
+			$amountSKdef = $Island->getAmountSK();
+			$amountBSdef = $Island->getAmountBS();
+			$amountSPdef = $Island->getAmountSP();
+			
+			$defBonus = $Island->getBonusDef();
+			
+			$defTotal = ($amountSKdef * $DEFENSE_HIGH + $amountSPdef * $DEFENSE_MEDIUM + $amountBSdef * $DEFENSE_LOW) * (1.0 + $defBonus/100);
+			
+			return $defTotal;
+		}
 		
 		
 	}
