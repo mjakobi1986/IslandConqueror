@@ -70,5 +70,45 @@
 			return $isl_Coords;
 		}
 		
+		private function islandDistanceByCoords ($islCoordsStart, $islCoordsDest) {
+			$isl_ID_Start = island_CoordsToID($islCoordsStart);
+			$isl_ID_Dest = island_CoordsToID($islCoordsDest);
+			
+			$distance = islandDistanceByID($isl_ID_Start, $isl_ID_Dest);
+		}
+		
+		private function islandDistanceByID ($isleID1, $isleID2) {
+			$oz1 = $isleID1[0];
+			$oz2 = $isleID2[0];
+			
+			$id1 = $isleID1[1];
+			$id2 = $isleID2[1];
+			
+			$dx = 0;
+			$dy = 0;
+			
+			//horizontal part
+			if($oz1%10 != $oz2%10) {
+				$dx = 50 - abs($id1%50 - $id2%50);
+			} else {
+				$dx = $id1%50 - $id2%50;
+			}
+			
+			//vertical part
+			if($oz1/10 != $oz2/10) {
+				$dy = 50 - abs($id1/50 - $id2/50);
+			} else {
+				$dy = $id1/50 - $id2/50;
+			}
+			
+			//total distance via Pythagoras
+			$distance = ($dx^2 + $dy^2)^0.5;
+			
+			return $distance;
+		}
+		
+		
+		
+		
 	}
 ?>
