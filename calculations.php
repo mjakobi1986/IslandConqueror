@@ -66,6 +66,22 @@
 			return $isl_ID_OZ;
 		}
 		
+		public function island_IdToCoords($isl_OZ, $isl_Id) {
+			$isl_Coords = "";
+			
+			$oz_x = isl_OZ%10;
+			$oz_y = isl_OZ/10;
+			
+			$ig_x = (isl_Id%50)/5;
+			$ig_y = (isl_Id/50)/5;
+			
+			$isl_x = isl_Id%5;
+			$isl_y = (isl_Id/50)%5;
+			
+			$isl_Coords = $oz_y . $oz_x . ":" . $ig_y . $ig_x . ":" . $isl_y . $isl_x;
+			
+			return $isl_Coords;
+		}
 		
 	}
 ?>
