@@ -9,7 +9,9 @@
 		public constant $DEFENSE_LOW = 1;
 		public constant $HITPOINTS = 10;
 		
-		public constant $ISLANDS_DISTANCE_WATER = 12;
+		public constant $ISLANDS_DISTANCE_WATER_SECONDS = 720;
+		
+		public constant $DIFFICULTY = 1;
 		
 		private $islandOcean1;
 		private $islandOcean2;
@@ -70,6 +72,8 @@
 			return $isl_Coords;
 		}
 		
+		
+		
 		private function islandDistanceByCoords ($islCoordsStart, $islCoordsDest) {
 			$isl_ID_Start = island_CoordsToID($islCoordsStart);
 			$isl_ID_Dest = island_CoordsToID($islCoordsDest);
@@ -107,30 +111,58 @@
 			return $distance;
 		}
 		
-		private function attackValue (object $Island) {
-			$amountSKatt = $Island->getAmountSK();
-			$amountBSatt = $Island->getAmountBS();
-			$amountSPatt = $Island->getAmountSP();
+		private function attackValue (object $fleet) {
+			$amountSKatt = $fleet->getAmountSK();
+			$amountBSatt = $fleet->getAmountBS();
+			$amountSPatt = $fleet->getAmountSP();
 			
-			$attBonus = $Island->getBonusAtt();
+			$attBonus = $fleet->getBonusAtt();
 			
 			$attTotal = ($amountSKatt * $ATTACK_LOW + $amountSPatt * $ATTACK_MEDIUM + $amountBSatt * $ATTACK_HIGH) * (1.0 + $attBonus/100);
 			
 			return $attTotal;
 		}
 		
-		private function defenseValue (object $Island) {
-			$amountSKdef = $Island->getAmountSK();
-			$amountBSdef = $Island->getAmountBS();
-			$amountSPdef = $Island->getAmountSP();
+		private function defenseValue (object $island) {
+			$amountSKdef = $island->getAmountSK();
+			$amountBSdef = $island->getAmountBS();
+			$amountSPdef = $island->getAmountSP();
 			
-			$defBonus = $Island->getBonusDef();
-			
-			$defTotal = ($amountSKdef * $DEFENSE_HIGH + $amountSPdef * $DEFENSE_MEDIUM + $amountBSdef * $DEFENSE_LOW) * (1.0 + $defBonus/100);
+			$defTotal = $amountSKdef * $DEFENSE_HIGH + $amountSPdef * $DEFENSE_MEDIUM + $amountBSdef * $DEFENSE_LOW;
 			
 			return $defTotal;
 		}
 		
+		//newbie protection: 1 - [(islands att)-(islands def)]/(islands att)
+		public function newbieProtection ($islAmountAtt, $islAmountDef) {
+			$attFactor = 1;
+			if(($islAmountAtt * 0.75 * $DIFFICULTY) > $islAmountDef) {
+				$attFactor = 1 - ($islAmountAtt * $DIFFICULTY - $islAmountDef)/($islAmountAtt * $DIFFICULTY);
+			}
+			
+			return $attFactor;
+		}
+		
+		/**
+		 *
+		 *	Need to build functions	getTroopAmount(object $object) returns int[] troops;
+		 *									troops[0] -> SK
+		 *									troops[1] -> BS
+		 *									troops[2] -> SP
+		 *						and	setTroopAmount(int[] troops)
+		 *
+		 */
+		public function battleScript (object $fleet, object $island) {
+			$attackValue = attackValue($fleet);
+			$defenseValue = defenseValue($island);
+			
+			$troopsAtt = getTroopAmount($fleet);
+			$troopsDef = getTroopAmount($island);
+			
+			$hpAtt = $HITPOINTS * getTroopAmount($fleet);
+			$hpDef = $HITPOINTS * getTroopAmount($island) * (1.0 + $island->getDefBonus() / 100 );
+		}
 		
 	}
+
 ?>
