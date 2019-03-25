@@ -36,11 +36,17 @@
 			
 		};
 		
-		public function shippingDurationByIslandId($islandId1, $islandId2) {
+		public function shippingDuration(object $islandStart, object $islandDest) {
+			$startID = $islandStart->getID();
+			$destID = $islandDest->getID();
 			
+			$durationSec = islandDistanceByID($startID, $destID) * $ISLANDS_DISTANCE_WATER_SECONDS;
+			$durationTime = new DateTime('');
+			$durationTime -> setTime(0, 0, $durationSec);
+			$durationTime -> format(H:i:s);
 		}
 		
-		public function island_CoordsToID ($islandCoords) {
+		public function island_CoordsToID (String $islandCoords) {
 			$parts = preg_split(':', $islandCoords);
 			$oz = $parts[0];
 			$ig = $parts[1];
@@ -50,43 +56,46 @@
 			$isl_Id_y = $ig/10 + $in/5;
 			
 			$isl_ID = $isl_Id_x*25 + $isl_Id_y;
-			$isl_ID_OZ = new Array($oz, $isl_ID);
+			$isl_ID_w_OZ = $oz * 10000 + $isl_ID;
 			
-			return $isl_ID_OZ;
+			return $isl_ID_w_OZ;
 		}
 		
-		public function island_IdToCoords($isl_Id) {
+		public function island_IdToCoords(int $isl_Id) {
 			$isl_Coords = "";
 			
-			$oz_x = $isl_Id[0]%10;
-			$oz_y = $isl_Id[0]/10;
+			$oz = $isl_Id/10000;
 			
-			$ig_x = ($isl_Id[1]%50)/5;
-			$ig_y = ($isl_Id[1]/50)/5;
+			$ig_dx = ($isl_Id%50)/5;
+			$ig_dy = ($isl_Id%10000)/250;
 			
-			$isl_x = $isl_Id[1]%5;
-			$isl_y = ($isl_Id[1]/50)%5;
+			$isl_dx = $isl_Id%5;
+			$isl_dy = (($isl_Id%10000)/50)%5;
 			
-			$isl_Coords = $oz_y . $oz_x . ":" . $ig_y . $ig_x . ":" . $isl_y . $isl_x;
+			if($oz < 10) {
+				$oz = "0" . $oz
+			}
+			
+			$isl_Coords = $oz . ":" . $ig_dy . $ig_dx . ":" . $isl_dy . $isl_dx;
 			
 			return $isl_Coords;
 		}
 		
 		
 		
-		private function islandDistanceByCoords ($islCoordsStart, $islCoordsDest) {
+		private function islandDistanceByCoords (String $islCoordsStart, String $islCoordsDest) {
 			$isl_ID_Start = island_CoordsToID($islCoordsStart);
 			$isl_ID_Dest = island_CoordsToID($islCoordsDest);
 			
 			$distance = islandDistanceByID($isl_ID_Start, $isl_ID_Dest);
 		}
 		
-		private function islandDistanceByID ($isleID1, $isleID2) {
-			$oz1 = $isleID1[0];
-			$oz2 = $isleID2[0];
+		private function islandDistanceByID (int $isleID1, int $isleID2) {
+			$oz1 = $isleID1/10000;
+			$oz2 = $isleID2/10000;
 			
-			$id1 = $isleID1[1];
-			$id2 = $isleID2[1];
+			$id1 = $isleID1%10000;
+			$id2 = $isleID2%10000;
 			
 			$dx = 0;
 			$dy = 0;
@@ -134,7 +143,7 @@
 		}
 		
 		//newbie protection: 1 - [(islands att)-(islands def)]/(islands att)
-		public function newbieProtection ($islAmountAtt, $islAmountDef) {
+		public function newbieProtection (int $islAmountAtt, int $islAmountDef) {
 			$attFactor = 1;
 			if(($islAmountAtt * 0.75 * $DIFFICULTY) > $islAmountDef) {
 				$attFactor = 1 - ($islAmountAtt * $DIFFICULTY - $islAmountDef)/($islAmountAtt * $DIFFICULTY);
