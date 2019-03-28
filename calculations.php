@@ -81,7 +81,15 @@
 			return $isl_Coords;
 		}
 		
-		
+		private function getTroopAmount(object $object) {
+			$troops[] = new Array(0, 0, 0, 0);
+			if(get_class($object) == ("fleet" || "island")) {
+				$troops[0] = $object -> getAmountSK();
+				$troops[1] = $object -> getAmountBS();
+				$troops[2] = $object -> getAmountSP();
+				$troops[3] = $troops[0] + $troops[1] + $troops[2];
+			}
+		}
 		
 		private function islandDistanceByCoords (String $islCoordsStart, String $islCoordsDest) {
 			$isl_ID_Start = island_CoordsToID($islCoordsStart);
@@ -121,23 +129,19 @@
 		}
 		
 		private function attackValue (object $fleet) {
-			$amountSKatt = $fleet->getAmountSK();
-			$amountBSatt = $fleet->getAmountBS();
-			$amountSPatt = $fleet->getAmountSP();
+			$troops = getTroopAmount($fleet);
 			
 			$attBonus = $fleet->getBonusAtt();
 			
-			$attTotal = ($amountSKatt * $ATTACK_LOW + $amountSPatt * $ATTACK_MEDIUM + $amountBSatt * $ATTACK_HIGH) * (1.0 + $attBonus/100);
+			$attTotal = ($troops[0] * $ATTACK_LOW + $troops[2] * $ATTACK_MEDIUM + $troops[1] * $ATTACK_HIGH) * (1.0 + $attBonus/100);
 			
 			return $attTotal;
 		}
 		
 		private function defenseValue (object $island) {
-			$amountSKdef = $island->getAmountSK();
-			$amountBSdef = $island->getAmountBS();
-			$amountSPdef = $island->getAmountSP();
+			$troops = getTroopAmount($fleet);
 			
-			$defTotal = $amountSKdef * $DEFENSE_HIGH + $amountSPdef * $DEFENSE_MEDIUM + $amountBSdef * $DEFENSE_LOW;
+			$defTotal = $troops[0] * $DEFENSE_HIGH + $troops[2] * $DEFENSE_MEDIUM + $troops[1] * $DEFENSE_LOW;
 			
 			return $defTotal;
 		}
