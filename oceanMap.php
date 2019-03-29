@@ -1,5 +1,6 @@
 <?php
 	
+public class oceanMap {
 	private int $ocean;
 	
 	public function __construct(int $oceanID) {
@@ -20,8 +21,12 @@
 			if (empty($name)) {
 				$ocean = $oceanID;
 			} else {
-				$ocean = $name;
-				// is_integer $name;
+				if(is_integer($name)) {
+					$ocean = $name;
+				} else {
+					$ocean = $oceanID;
+					print($name . "is not an ocean");
+				}
 			}
 		}
 	}
@@ -30,23 +35,23 @@
 		$islandArray -> getIslands(int ``ocean`s array_position in dbactions.php´´, $oceanID);
 		print_r("<br /><p>&Uuml;bersicht Ozean " . $oceanID . "</p><br />");
 		print_r('<table border="1px">');
-		for ($dy = 0, $dy++, $dy < 50) {
+		for ($dy = 0; $dy < 50; $dy++) {
 			print_r('<tr>');
-			for($dx = 0, $dx++, $dx < 50) {
+			for($dx = 0; $dx < 50; $dx++) {
 				print_r('<td>');
 				if(_FUNC_selectIsland(50 * $dy + $dx)) {
 					?>
 					<a href="island.php">
-						<svg width="30" height="30">
-							<rect width="30" height="30" style="fill:#D4AC0D;stroke-width:0;stroke:rgb(0,0,0)" />
+						<svg width="20" height="20">
+							<rect width="20" height="20" style="fill:#D4AC0D;stroke-width:0;stroke:rgb(0,0,0)" />
 								Sorry, your browser does not support inline SVG.
 						</svg>
 					</a>
 					<?php
 				} else {
 					?>
-					<svg width="30" height="30">
-							<rect width="30" height="30" style="fill:#0047AB;stroke-width:0;stroke:rgb(0,0,0)" />
+					<svg width="20" height="20">
+							<rect width="20" height="20" style="fill:#0047AB;stroke-width:0;stroke:rgb(0,0,0)" />
 								Sorry, your browser does not support inline SVG.
 					</svg>
 					<?php
@@ -58,5 +63,6 @@
 		print_r('</table>');
 		
 	}
+}
 
 ?>
