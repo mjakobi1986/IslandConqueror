@@ -1,7 +1,29 @@
 <?php
 	
+	private int $ocean;
+	
 	public function __construct(int $oceanID) {
-		draw_ocean(int $oceanID)
+		setOcean($oceanID);
+		draw_ocean($ocean);
+	}
+	
+	private function setOcean(int $oceanID) {
+		print('<form method="post" action="' . $_SERVER['PHP_SELF'] . '">
+			Name: <input type="text" name="oceanname">
+			<input type="submit">
+			</form>');
+		print("<br />");
+		
+		if ($_SERVER["REQUEST_METHOD"] == "POST") {
+			// collect value of input field
+			$name = htmlspecialchars($_REQUEST['oceanname']); 
+			if (empty($name)) {
+				$ocean = $oceanID;
+			} else {
+				$ocean = $name;
+				// is_integer $name;
+			}
+		}
 	}
 	
 	private function draw_ocean(int $oceanID) {
