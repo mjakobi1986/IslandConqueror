@@ -30,3 +30,33 @@ body {
 	background-color: #4CAF50;
 	color: white;
 }
+
+div.showcontent {
+	border: 1px solid black;
+	padding: 2px;
+	width: 85%;
+	margin: auto;
+}
+
+table.islands {
+	width: 100%;
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+table.islands tr {
+	font-size: 14px;
+}
+
+table.islands th {
+	border: 1px solid black;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+}
+
+table.islands td {
+	border: 1px solid black;
+	padding-top: 2px;
+	padding-left: 5px;
+}
